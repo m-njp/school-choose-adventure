@@ -376,14 +376,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
-  pixel_ui:
-    dependency: "direct main"
-    description:
-      name: pixel_ui
-      sha256: d95fd386f4ae32be017adcf80a7fba3291ac3bd755d7c523949e254a0b204f01
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.1"
   platform:
     dependency: transitive
     description:

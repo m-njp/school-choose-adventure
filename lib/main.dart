@@ -1,14 +1,9 @@
 // main.dart — UI Entry Point
 // "The Quiet" — Choose Your Own Adventure
-//
 
 import 'package:flutter/material.dart';
-
+// TODO: uncomment once audioplayers is wired
 // import 'package:audioplayers/audioplayers.dart';
-
-// TODO: uncomment once pixel_ui is added to pubspec.yaml
-// import 'package:pixel_ui/pixel_ui.dart';
-
 import 'StoryBrain.dart';
 
 StoryBrain storyBrain = StoryBrain();
@@ -38,7 +33,6 @@ class ChooseAdventure extends StatelessWidget {
           centerTitle: true,
           title: const Text(
             'THE QUIET',
-            // TODO: swap with PixelText.mulmaru() once pixel_ui is installed
             style: TextStyle(
               color: Color(0xFFB0D4E0),
               fontSize: 14,
@@ -66,15 +60,17 @@ class StoryPage extends StatefulWidget {
 }
 
 class _StoryPageState extends State<StoryPage> {
-  // add AudioPlayer field here once audioplayers is in pubspec.yaml
+  // TODO: add AudioPlayer field here once audioplayers is wired
   // final AudioPlayer _bgPlayer = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
+    // TODO: start looping ambient audio here
     // _startAmbient();
   }
 
+  // TODO: uncomment once audioplayers is ready
   // Future<void> _startAmbient() async {
   //   await _bgPlayer.setReleaseMode(ReleaseMode.loop);
   //   await _bgPlayer.play(AssetSource('audio/ambient.mp3'));
@@ -92,9 +88,9 @@ class _StoryPageState extends State<StoryPage> {
     });
   }
 
-  // R6 — ending popup: shows which ending reached + Restart button
+  // Ending popup: shows which ending reached + Restart button
   void _showEndingDialog() {
-    // TODO (R5): play ending sting and stop background music here
+    // TODO: play ending sting and stop background music here
     // _bgPlayer.stop();
     // AudioPlayer().play(AssetSource('audio/ending_sting.mp3'));
 
@@ -129,10 +125,7 @@ class _StoryPageState extends State<StoryPage> {
                 child: TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor: const Color(0xFF1E4D60),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 12,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(2),
                     ),
@@ -160,6 +153,7 @@ class _StoryPageState extends State<StoryPage> {
     });
   }
 
+  // Builds one button per choice using getChoices().
   // List.generate keeps index i in sync with nextScenes[i] via nextScene(i).
   List<Widget> buildChoiceButtons() {
     final List<String> choices = storyBrain.getChoices();
@@ -170,21 +164,6 @@ class _StoryPageState extends State<StoryPage> {
         child: SizedBox(
           width: double.infinity,
           child: TextButton(
-            // TODO: replace with PixelButton once pixel_ui is installed:
-            //
-            //   PixelButton(
-            //     logicalWidth: 80,
-            //     logicalHeight: 14,
-            //     normalStyle: PixelShapeStyle(
-            //       corners: PixelCorners.md,
-            //       fillColor: const Color(0xFF1A3A4A),
-            //       borderColor: const Color(0xFF2D5E74),
-            //       borderWidth: 1,
-            //       shadow: PixelShadow.sm(const Color(0xFF0A1520)),
-            //     ),
-            //     onPressed: () => makeChoice(i),
-            //     child: Text(choices[i], style: PixelText.mulmaru(fontSize: 13, color: Colors.white)),
-            //   ),
             style: TextButton.styleFrom(
               backgroundColor: const Color(0xFF1A3A4A),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -195,7 +174,7 @@ class _StoryPageState extends State<StoryPage> {
             ),
             onPressed: () => makeChoice(i),
             child: Text(
-              choices[i], // R3 — Text
+              choices[i],
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFFCDE8F0),
@@ -215,55 +194,24 @@ class _StoryPageState extends State<StoryPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        // TODO: swap the placeholder Card below with Image.asset once images are confirmed.
-        // When ready, replace the Card block with:
-        //
-        //   Expanded(
-        //     flex: 3,
-        //     child: Card(
-        //       clipBehavior: Clip.antiAlias,
-        //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        //       child: Image.asset(
-        //         storyBrain.getSceneImage(),
-        //         fit: BoxFit.cover,
-        //         width: double.infinity,
-        //       ),
-        //     ),
-        //   ),
-        //
-        //   Scene  0 → scene_apartment.png
-        //   Scene  1 → scene_maren_alt.png
-        //   Scene  2 → scene_journal.png
-        //   Scene  3 → scene_clinic.png
-        //   Scene  4 → scene_holdouts.png
-        //   Scene  5 → scene_helios.png
-        //   Scene  6 → scene_confrontation.png
-        //   Scene  7 → scene_lab.png
-        //   Scene  8 → scene_coldstorage.png
-        //   Scene  9 → scene_renewal.png
-        //   Scene 10 → scene_holdout_ending.png
-        //   Scene 11 → scene_counteragent.png
-        //   Scene 12 → scene_quiet_ending.png
-        //   Scene 13 → scene_good_ending.png
-        //   Scene 14 → scene_rooftop.png
+
+        // Scene image
         Expanded(
           flex: 3,
           child: Card(
-            color: const Color(0xFF1A2C35),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: const Center(
-              child: Text(
-                '[ scene image ]',
-                style: TextStyle(color: Color(0xFF3A6070), fontSize: 13),
-              ),
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            child: Image.asset(
+              storyBrain.getSceneImage(),
+              fit: BoxFit.cover,
+              width: double.infinity,
             ),
           ),
         ),
 
         const SizedBox(height: 12),
 
+        // Scene text
         Expanded(
           flex: 3,
           child: SingleChildScrollView(
@@ -282,11 +230,12 @@ class _StoryPageState extends State<StoryPage> {
 
         const SizedBox(height: 12),
 
-        // Choice buttons — dynamically built from getChoices()
+        // Choice buttons
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: buildChoiceButtons(),
         ),
+
       ],
     );
   }
