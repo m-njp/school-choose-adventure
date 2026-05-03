@@ -1,5 +1,5 @@
-// StoryBrain.dart — Story Logic Controller
-// "The Quiet" — Choose Your Own Adventure
+// StoryBrain.dart Story Logic Controller
+// "The Quiet" Choose Your Own Adventure
 //
 // Scene index map (15 scenes total):
 //   0  → The Apartment         (2 choices)  Decision point
@@ -26,18 +26,18 @@ class StoryBrain {
   // Source: story.md (V3). Image filenames follow prompt.md naming.
   // TODO: when audio is wired up, also trigger sounds here or in main.dart.
   final List<Scene> _storyData = [
-    // Scene 0 — The Apartment
+    // Scene 0 The Apartment
     // Image: scene_apartment.png (POV from couch, journal on table)
     // TODO: confirm image is finalized before adding Image.asset call in main.dart
     Scene(
       storyText:
           'You wake on a couch. Sunlight pours through the window. The city outside '
-          'looks normal — cars, pedestrians, all fine.\n\n'
+          'looks normal: cars, pedestrians, all fine.\n\n'
           'On the coffee table, a journal is open to a page covered in your handwriting:\n\n'
           '"Don\'t trust Maren. Don\'t drink the water. Find the lab. Destroy the supply. '
           'You\'ve done this before."\n\n'
           'You don\'t remember writing this. Your head aches. On the fridge, a photo: '
-          'you and a younger woman laughing. Written on the back: "Lena — 24th." You feel '
+          'you and a younger woman laughing. Written on the back: "Lena, 24th." You feel '
           'something heavy when you look at it. But you can\'t remember why.\n\n'
           'A knock at the door. Your neighbor, Maren. "Hey. You\'ve been in there for '
           'two days. Are you okay?"',
@@ -49,12 +49,12 @@ class StoryBrain {
       nextScenes: [1, 2],
     ),
 
-    // Scene 1 — Maren
+    // Scene 1 Maren
     // Image: scene_maren_alt.png (over-the-shoulder, Maren in doorway)
     // Note: the generated file is scene_maren_alt.png, not scene_maren.png
     Scene(
       storyText:
-          'Maren steps inside. She seems genuinely worried — not Quiet-calm, but '
+          'Maren steps inside. She seems genuinely worried, not Quiet-calm, but '
           'human-worried. She tells you things have gotten worse outside. More people '
           'Settling every day. The water treatment plant on the east side has been '
           'running nonstop.\n\n'
@@ -73,16 +73,16 @@ class StoryBrain {
       nextScenes: [3, 4],
     ),
 
-    // Scene 2 — The Journal
+    // Scene 2 The Journal
     // Image: scene_journal.png (close-up, Dutch angle on journal pages)
     Scene(
       storyText:
           'You ignore the knocking and flip through the journal. The entries are dated, '
-          'stretching back weeks — but the handwriting deteriorates as you go further '
+          'stretching back weeks, but the handwriting deteriorates as you go further '
           'back, becoming shaky and erratic.\n\n'
           '"Day 1: I remember everything. I built S-17. God forgive me."\n\n'
           '"Day 3: Maren is Settled. She doesn\'t know it yet. She\'ll try to stop you '
-          'at the lab — not from malice. She genuinely believes The Quiet is mercy."\n\n'
+          'at the lab, not from malice. She genuinely believes The Quiet is mercy."\n\n'
           '"Day 5: Lena visited today. She smiled at me and said she loved me. It sounded '
           'like a greeting card. Like something a stranger would say."\n\n'
           '"Day 7: I\'m taking the memory wipe. By the time you read this, you won\'t know '
@@ -90,17 +90,17 @@ class StoryBrain {
           'The knocking stops. Maren\'s footsteps fade.',
       imageAsset: 'assets/images/scene_journal.png',
       choices: [
-        'Follow the journal — go to Dr. Voss alone',
+        'Follow the journal, go to Dr. Voss alone',
         'Catch up to Maren in the hallway',
       ],
       nextScenes: [5, 1],
     ),
 
-    // Scene 3 — The Clinic (with Maren) — 3 CHOICES
+    // Scene 3 The Clinic (with Maren) 3 CHOICES
     // Image: scene_clinic.png (OTS shot at Dr. Voss in basement)
     Scene(
       storyText:
-          'Maren leads you through quiet streets. The Settled walk past — smiling, '
+          'Maren leads you through quiet streets. The Settled walk past, smiling, '
           'waving. A woman waters plants that are already drowning. A man pushes an '
           'empty stroller, humming. Nobody stops you.\n\n'
           'Dr. Voss is in the basement of the clinic. He\'s gaunt, wired, clearly '
@@ -120,13 +120,13 @@ class StoryBrain {
       nextScenes: [7, 6, 5],
     ),
 
-    // Scene 4 — The Holdouts
+    // Scene 4 The Holdouts
     // Image: scene_holdouts.png (wide establishing shot of compound)
     // Easter egg: a kid watching old video footage is in the background
     Scene(
       storyText:
           'The reservoir is surrounded by concrete walls topped with razor wire. '
-          'The Warden — a man with a weathered face and hard eyes — meets you at '
+          'The Warden, a man with a weathered face and hard eyes, meets you at '
           'the gate.\n\n'
           'Inside, roughly 40 people live in a tight community. Children argue over '
           'something trivial. A couple is fighting in the corner. Someone is crying, '
@@ -134,7 +134,7 @@ class StoryBrain {
           'outside isn\'t.\n\n'
           'The Warden pulls you aside. "We survive. That\'s the plan." He studies you. '
           '"But I can see you\'re thinking about it. The lab. The cure."\n\n'
-          'He leans in. "Your sister — Lena. She\'s out there right now, Settled. '
+          'He leans in. "Your sister, Lena. She\'s out there right now, Settled. '
           'Smiling. Not suffering. If you cure her, you give her back every bad memory, '
           'every heartbreak, every nightmare she\'s ever had. All at once." He pauses. '
           '"You sure that\'s love?"',
@@ -146,19 +146,19 @@ class StoryBrain {
       nextScenes: [10, 5],
     ),
 
-    // Scene 5 — Solo Journey to Helios — 3 CHOICES
+    // Scene 5 Solo Journey to Helios 3 CHOICES
     // Image: scene_helios.png (one-point perspective, three corridors in lobby)
     Scene(
       storyText:
           'You follow the journal\'s instructions. It describes a route through the '
-          'city that avoids major roads — alleys, rooftops, a drainage tunnel under '
+          'city that avoids major roads: alleys, rooftops, a drainage tunnel under '
           'the river. The journal is unnervingly accurate.\n\n'
           'The Helios compound is a sleek glass building, untouched. Settled employees '
-          'are still inside — filing reports, cleaning floors, smiling. They don\'t '
+          'are still inside, filing reports, cleaning floors, smiling. They don\'t '
           'stop you. They don\'t even look up.\n\n'
           'You stand in the lobby. Three hallways branch off from here:\n\n'
-          '  Left: Cold Storage — where the S-17 culture is kept.\n'
-          '  Center: "Project RENEWAL — Authorized Personnel Only."\n'
+          '  Left: Cold Storage where the S-17 culture is kept.\n'
+          '  Center: "Project RENEWAL, Authorized Personnel Only."\n'
           '  Right: A service corridor leading to the rooftop array.\n\n'
           'The journal said to get the culture. But something pulls at you.',
       imageAsset: 'assets/images/scene_helios.png',
@@ -170,21 +170,21 @@ class StoryBrain {
       nextScenes: [8, 9, 14],
     ),
 
-    // Scene 6 — Maren Confrontation (you stayed, Maren went to lab)
+    // Scene 6 Maren Confrontation (you stayed, Maren went to lab)
     // Image: scene_confrontation.png (low angle, Maren pushing vial toward viewer)
     Scene(
       storyText:
           'You stay with Dr. Voss. Maren takes the keycard and leaves.\n\n'
           'Hours pass. Voss works in silence. Then the door opens. Maren walks back '
-          'in — but something has changed. She moves too smoothly. Her eyes are calm. '
+          'in, but something has changed. She moves too smoothly. Her eyes are calm. '
           'Too calm. She sets the S-17 vial on the table gently.\n\n'
           '"I found it." She looks at you. "But I also found the RENEWAL files. '
           'Files with your name on them." A beat. "You made this. S-17. You."\n\n'
-          'She continues — not angry. Just serene. "I drank the water at the lab. '
+          'She continues, not angry. Just serene. "I drank the water at the lab. '
           'On purpose. I wanted to understand what The Quiet really was." She smiles. '
           '"There\'s no more fear. No more grief. I feel free."\n\n'
           'She pushes the vial toward you. "When Lena was crying every night after '
-          'your parents died, when she couldn\'t get out of bed for six months — '
+          'your parents died, when she couldn\'t get out of bed for six months, '
           'was that the life you want to give back to her?"',
       imageAsset: 'assets/images/scene_confrontation.png',
       choices: [
@@ -194,7 +194,7 @@ class StoryBrain {
       nextScenes: [8, 11],
     ),
 
-    // Scene 7 — You at the Lab (Maren stayed)
+    // Scene 7 You at the Lab (Maren stayed)
     // Image: scene_lab.png (POV, reaching for the glowing amber culture)
     Scene(
       storyText:
@@ -204,7 +204,7 @@ class StoryBrain {
           'The S-17 culture sits in a sealed container, glowing faintly amber. '
           'As you reach for it, you notice a monitor on the wall displaying a '
           'research log. The most recent entry:\n\n'
-          '"Subject Zero — voluntary memory erasure complete. Subject released '
+          '"Subject Zero: voluntary memory erasure complete. Subject released '
           'into the field with journal and counteragent instructions. '
           'Monitoring loop iteration: 4."\n\n'
           'Loop iteration 4. You\'ve done this four times.\n\n'
@@ -218,7 +218,7 @@ class StoryBrain {
       nextScenes: [11, 9],
     ),
 
-    // Scene 8 — Cold Storage
+    // Scene 8 Cold Storage
     // Image: scene_coldstorage.png (two-shot standoff with Settled technician)
     // Easter egg: one vial labeled "Batch 67" is visible in background racks
     Scene(
@@ -228,10 +228,10 @@ class StoryBrain {
           'At the center, behind a glass panel, the original S-17 culture. You use '
           'the keycard. The glass opens. The vial is warm in your hand.\n\n'
           'A gentle voice from behind you: "You don\'t have to take that."\n\n'
-          'A Settled lab technician. She\'s smiling — not threateningly. Just '
+          'A Settled lab technician. She\'s smiling not threateningly. Just '
           'peacefully. "I\'ve seen your file. I know who you are. You created S-17 '
           'to help people. And it worked. There is no more suffering."\n\n'
-          'She steps closer. "Your sister Lena — she was diagnosed with severe '
+          'She steps closer. "Your sister, Lena. She was diagnosed with severe '
           'depression three years ago. Chronic. Medication-resistant. She told her '
           'therapist she wanted to stop existing." The tech pauses. "S-17 gave her '
           'peace. Real peace. And you want to take that away?"',
@@ -243,21 +243,21 @@ class StoryBrain {
       nextScenes: [11, 12],
     ),
 
-    // Scene 9 — Project RENEWAL
+    // Scene 9 Project RENEWAL
     // Image: scene_renewal.png (POV Dutch angle, watching your own video)
     Scene(
       storyText:
           'The RENEWAL wing is different. No smiling technicians. Emergency power '
-          'only. The hallway is lined with sealed rooms — each containing a bed, '
+          'only. The hallway is lined with sealed rooms each containing a bed, '
           'a desk, and a journal. Your handwriting.\n\n'
           'In the final room, a video terminal. You press play. Your own face stares '
-          'back — thinner, exhausted, undeniably you.\n\n'
+          'back thinner, exhausted, undeniably you.\n\n'
           '"If you\'re watching this, the memory wipe worked. This is iteration four. '
           'I don\'t know how many more times I can do this."\n\n'
           '"Compound S-17 cannot be destroyed. The culture regenerates. The only way '
           'to stop The Quiet is the counteragent. But the counteragent reverses '
           'everything. Pain comes back. All of it. Every suppressed memory, every '
-          'trauma, every hurt — all at once. Some won\'t survive the shock."\n\n'
+          'trauma, every hurt all at once. Some won\'t survive the shock."\n\n'
           '"Lena will remember everything. The depression. The months in bed. '
           'All of it, in one moment. I couldn\'t pull the trigger on that. '
           'That\'s why there\'s a loop."',
@@ -269,12 +269,12 @@ class StoryBrain {
       nextScenes: [11, 12],
     ),
 
-    // Scene 10 — The Holdouts — NEUTRAL ENDING
+    // Scene 10 The Holdouts NEUTRAL ENDING
     // Image: scene_holdout_ending.png (high angle from wall, Lena below in moonlight)
     Scene(
       storyText:
           'You stay.\n\n'
-          'Days turn to weeks. The Holdouts become something like family — loud, '
+          'Days turn to weeks. The Holdouts become something like family: loud, '
           'messy, frustrating, real.\n\n'
           'But something starts to feel wrong. The arguments get quieter. The couple '
           'who used to fight every morning starts holding hands in silence. The woman '
@@ -291,11 +291,11 @@ class StoryBrain {
           'You don\'t notice when you stop feeling anything about it.\n\n'
           'There was never a safe choice.',
       imageAsset: 'assets/images/scene_holdout_ending.png',
-      choices: [], // NEUTRAL ENDING — no choices
+      choices: [], // NEUTRAL ENDING no choices
       nextScenes: [],
     ),
 
-    // Scene 11 — The Counteragent Decision
+    // Scene 11 The Counteragent Decision
     // Image: scene_counteragent.png (close-up: syringe between two hands, dawn light)
     Scene(
       storyText:
@@ -320,7 +320,7 @@ class StoryBrain {
       nextScenes: [13, 12],
     ),
 
-    // Scene 12 — The Quiet Remains — BAD ENDING
+    // Scene 12 The Quiet Remains BAD ENDING
     // Image: scene_quiet_ending.png (wide shot, park bench, beautiful but hollow)
     Scene(
       storyText:
@@ -329,24 +329,24 @@ class StoryBrain {
           'himself: "Maybe that\'s the mercy." He walks to the window and breathes '
           'in deeply. He doesn\'t come back.\n\n'
           'Weeks pass. The clean water runs out. S-17 builds in your system. You feel '
-          'it happening — the slow softening, the way your thoughts lose their edges, '
+          'it happening, the slow softening, the way your thoughts lose their edges, '
           'the way grief stops weighing anything.\n\n'
           'And then, one morning, The Quiet takes you.\n\n'
-          'But it\'s not what you expected. You don\'t go blank. You hear them — all '
+          'But it\'s not what you expected. You don\'t go blank. You hear them, all '
           'of them. A vast, collective hum. The Settled aren\'t hollow. They never were. '
           'They\'re aware. They chose this. Once the pain was gone, they could '
           'finally hear each other.\n\n'
-          'A voice reaches you — clear, familiar:\n\n'
+          'A voice reaches you clear, familiar:\n\n'
           '"It took you long enough."\n\nLena.\n\n'
           '"I\'ve been waiting for you. Four iterations. I watched you struggle '
           'every single time. You had to choose it yourself."\n\n'
           'The Quiet isn\'t a disease. It\'s the next step. And you just took it.',
       imageAsset: 'assets/images/scene_quiet_ending.png',
-      choices: [], // BAD ENDING — no choices
+      choices: [], // BAD ENDING no choices
       nextScenes: [],
     ),
 
-    // Scene 13 — Counteragent Released — GOOD ENDING
+    // Scene 13 Counteragent Released GOOD ENDING
     // Image: scene_good_ending.png (POV kneeling on Lena's kitchen floor)
     Scene(
       storyText:
@@ -358,7 +358,7 @@ class StoryBrain {
           'onto the sidewalk, sobbing. The woman who watered drowning plants rips '
           'them from the soil, shaking.\n\n'
           'Then it hits you. Your own memories flood back like a dam breaking.\n\n'
-          'You remember creating S-17. The day Lena called — her voice flat and '
+          'You remember creating S-17. The day Lena called her voice flat and '
           'warm and wrong: "I love you." Like a greeting card. You remember the '
           'RENEWAL lab, the journal, the needle. Your last thought before the wipe: '
           '"If the next version of me is braver, maybe Lena gets to cry again."\n\n'
@@ -366,7 +366,7 @@ class StoryBrain {
           'You run to Lena\'s apartment. The door is open.\n\n'
           'Lena is on the kitchen floor. Very still.\n\n'
           'The counteragent brought everything back. For most people, '
-          'overwhelming but survivable. But Lena — for Lena, "everything" was '
+          'overwhelming but survivable. But Lena, for Lena, "everything" was '
           'too much.\n\n'
           'The journal\'s last line: "Pain is the price of being alive."\n\n'
           'The price was Lena.\n\n'
@@ -375,30 +375,30 @@ class StoryBrain {
           'But you will spend the rest of your life knowing that you gave humanity '
           'back its pain, and the first person it took was your sister.',
       imageAsset: 'assets/images/scene_good_ending.png',
-      choices: [], // GOOD ENDING — no choices
+      choices: [], // GOOD ENDING no choices
       nextScenes: [],
     ),
 
-    // Scene 14 — The Rooftop (transition scene, 1 choice)
+    // Scene 14 The Rooftop (transition scene, 1 choice)
     // Image: scene_rooftop.png (wide panoramic, protagonist at railing)
     Scene(
       storyText:
           'You take the service corridor. Metal stairs, emergency lighting. The door '
           'at the top opens onto the roof of the Helios building.\n\n'
-          'The communications array is here — satellite dishes and antennas, still '
+          'The communications array is here satellite dishes and antennas, still '
           'powered, still transmitting. A console blinks with a distress signal. '
           'Recorded in your voice, six weeks ago. Nobody answered.\n\n'
-          'You try the radio manually. Static. Static. Static. Then — a voice. '
+          'You try the radio manually. Static. Static. Static. Then a voice. '
           'Calm, pleasant, unhurried:\n\n'
           '"Hello? Oh, how wonderful. We haven\'t received a call in weeks. Is '
           'everything alright on your end?"\n\n'
           'You ask where they are. They say Geneva. You ask if people there have '
           'Settled. There\'s a gentle laugh.\n\n'
           '"Settled? Is that what you call it? That\'s sweet. Yes, we\'re all very '
-          'well here. Very peaceful. You sound stressed — are you drinking enough water?"\n\n'
+          'well here. Very peaceful. You sound stressed. Are you drinking enough water?"\n\n'
           'You kill the radio.\n\n'
           'From up here, you can see the entire city. The Settled move below in '
-          'patterns — synchronized, unhurried, like a single organism breathing. '
+          'patterns, synchronized, unhurried, like a single organism breathing. '
           'And beyond the skyline, in every direction: just stillness.\n\n'
           'S-17 is in every water system on earth. There is no "outside." '
           'The only choice is the one waiting for you downstairs.',
@@ -414,10 +414,10 @@ class StoryBrain {
   List<String> getChoices() => _storyData[_currentSceneIndex].choices;
   bool isGameOver() => _storyData[_currentSceneIndex].isEnding;
 
-  // Returns the index each choice leads to — used internally by nextScene()
+  // Returns the index each choice leads to used internally by nextScene()
   List<int> getNextScenes() => _storyData[_currentSceneIndex].nextScenes;
 
-  // Advances to the scene at nextScenes[choiceIndex] — replaces QuizBrain's nextQuestion()
+  // Advances to the scene at nextScenes[choiceIndex] replaces QuizBrain's nextQuestion()
   void nextScene(int choiceIndex) {
     _currentSceneIndex = _storyData[_currentSceneIndex].nextScenes[choiceIndex];
   }
