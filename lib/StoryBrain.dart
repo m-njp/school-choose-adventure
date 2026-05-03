@@ -1,22 +1,25 @@
 // StoryBrain.dart Story Logic Controller
 // "The Quiet" Choose Your Own Adventure
 //
-// Scene index map (15 scenes total):
-//   0  → The Apartment         (2 choices)  Decision point
-//   1  → Maren                 (2 choices)  Decision point
-//   2  → The Journal           (2 choices)  Decision point
-//   3  → The Clinic            (3 choices)  Decision point
-//   4  → The Holdouts          (2 choices)  Decision point
-//   5  → Solo Journey          (3 choices)  Decision point
-//   6  → Maren Confrontation   (2 choices)  Decision point
-//   7  → You at the Lab        (2 choices)  Decision point
-//   8  → Cold Storage          (2 choices)  Decision point
-//   9  → Project RENEWAL       (2 choices)  Decision point
-//  10  → Holdout Ending        (0 choices)  NEUTRAL ENDING
-//  11  → Counteragent Decision (2 choices)  Decision point
-//  12  → The Quiet Remains     (0 choices)  BAD ENDING
-//  13  → Good Ending           (0 choices)  GOOD ENDING
-//  14  → The Rooftop           (1 choice)   Transition scene
+// Scene index map (18 scenes total):
+//   0  → The Apartment           (2 choices)  Decision point
+//   1  → Maren                   (2 choices)  Decision point
+//   2  → The Journal             (2 choices)  Decision point
+//   3  → The Clinic              (3 choices)  Decision point
+//   4  → The Holdouts            (2 choices)  Decision point
+//   5  → Solo Journey            (3 choices)  Decision point
+//   6  → Maren Confrontation     (2 choices)  Decision point
+//   7  → You at the Lab          (2 choices)  Decision point
+//   8  → Cold Storage            (2 choices)  Decision point
+//   9  → Project RENEWAL         (2 choices)  Decision point
+//  10  → Holdout Ending          (0 choices)  NEUTRAL ENDING
+//  11  → Counteragent Decision   (2 choices)  Decision point
+//  12  → The Quiet Remains       (0 choices)  BAD ENDING
+//  13  → Good Ending             (0 choices)  GOOD ENDING
+//  14  → The Rooftop             (1 choice)   Transition scene
+//  15  → Life at the Reservoir   (2 choices)  Decision point → Neutral/Escape
+//  16  → The Last Walk           (2 choices)  Decision point → Bad path
+//  17  → Lena's Garden           (2 choices)  Decision point → Bad/Return
 
 import 'scene.dart';
 
@@ -143,7 +146,7 @@ class StoryBrain {
         'Stay with the Holdouts. Survive.',
         'Leave for Helios Labs on your own.',
       ],
-      nextScenes: [10, 5],
+      nextScenes: [15, 5],
     ),
 
     // Scene 5 Solo Journey to Helios 3 CHOICES
@@ -240,7 +243,7 @@ class StoryBrain {
         'Take the vial and leave. People deserve the choice.',
         'Maybe The Quiet saved the people I couldn\'t.',
       ],
-      nextScenes: [11, 12],
+      nextScenes: [11, 16],
     ),
 
     // Scene 9 Project RENEWAL
@@ -266,28 +269,37 @@ class StoryBrain {
         'Take the vial to Voss. People deserve to feel.',
         'Some things should stay forgotten.',
       ],
-      nextScenes: [11, 12],
+      nextScenes: [11, 16],
     ),
 
-    // Scene 10 The Holdouts NEUTRAL ENDING
+    // Scene 10 The Warden's Defense NEUTRAL ENDING
     // Image: scene_holdout_ending.png (high angle from wall, Lena below in moonlight)
     Scene(
       storyText:
-          'You stay.\n\n'
-          'Days turn to weeks. The Holdouts become something like family: loud, '
-          'messy, frustrating, real.\n\n'
-          'But something starts to feel wrong. The arguments get quieter. The couple '
-          'who used to fight every morning starts holding hands in silence. The woman '
-          'who cried every night begins humming instead.\n\n'
-          'You test the reservoir water. The strip turns amber.\n\n'
-          'S-17. In the water. The Holdouts\' water.\n\n'
-          'You confront the Warden. He doesn\'t flinch. "I found traces six weeks ago. '
-          'It was already in the groundwater. There\'s no clean source left. So I '
-          'made a choice."\n\n'
-          'He\'s been Settled for weeks. And he\'s been making sure everyone follows.\n\n'
-          'You sit on the wall that night. Beyond it, Lena is watering wildflowers '
-          'in the dark. She hums your mother\'s song. And for the first time, '
-          'you hum along.\n\n'
+          'You find the Warden on the east wall. He\'s looking at the city, same as '
+          'you were last night. The test strip is in your hand. Amber.\n\n'
+          'He sees it. He doesn\'t flinch.\n\n'
+          '"Six weeks," he says. "I found it six weeks ago."\n\n'
+          'You wait. He turns to face you. For the first time since you\'ve known him, '
+          'he talks without measuring his words.\n\n'
+          '"I had a wife. Before. She had nightmares, the screaming kind, the kind '
+          'where you hold someone down so they don\'t hurt themselves. PTSD from her '
+          'deployment. Eight years of it." He swallows. "After S-17 took hold, she slept '
+          'through the night. First time in eight years. She woke up smiling. Not the '
+          'empty kind. The relieved kind."\n\n'
+          'He looks at the strip in your hand. "The groundwater was already contaminated. '
+          'There was no clean source. So I had a choice: tell them and watch them panic, '
+          'or let it happen gently. In their sleep. Without fear."\n\n'
+          '"You drugged them," you say.\n\n'
+          '"I freed them," he says. Calm. Certain. Settled.\n\n'
+          'You realize he\'s been Settled for weeks. The hard eyes, the pragmatic edge '
+          'that wasn\'t resilience. It was S-17 wearing resilience like a coat.\n\n'
+          '"Your sister is out there," he says quietly. "Watering her flowers. Humming '
+          'your mother\'s song. You could go to her. You could stop fighting."\n\n'
+          'You sit on the wall. Below, Lena kneels among wildflowers in the dark. '
+          'She hums. And for the first time, you hum along.\n\n'
+          'Your hands are steady. Your head doesn\'t hurt anymore. When did your head '
+          'stop hurting?\n\n'
           'You don\'t notice when you stop feeling anything about it.\n\n'
           'There was never a safe choice.',
       imageAsset: 'assets/images/scene_holdout_ending.png',
@@ -304,7 +316,14 @@ class StoryBrain {
           '"This is it. The counteragent. If we introduce this into the water supply, '
           'it will reverse S-17 in everyone within 72 hours." He sets it on the table. '
           '"But you watched the recording, didn\'t you?"\n\n'
-          'He looks at you steadily. "The reversal isn\'t gentle. Every emotion S-17 '
+          'He sits down. For the first time, he looks old.\n\n'
+          '"I had a daughter. Settled early, first week. She calls me every day. Same '
+          'conversation, word for word. \'Hi Dad. Everything\'s great. Love you.\' Same '
+          'inflection. Same pause before \'love you.\'" He stares at the syringe. "I\'m '
+          'not doing this for humanity. I\'m doing this because she used to argue with '
+          'me about everything. Everything. And I\'d give anything to hear her tell me '
+          'I\'m wrong one more time."\n\n'
+          'He looks at you steadily. "But the reversal isn\'t gentle. Every emotion S-17 '
           'suppressed comes back at full force. Grief. Anger. Pain. Trauma. All of it, '
           'all at once. Some people won\'t survive the psychological shock."\n\n'
           'He glances at the syringe. "Lena had severe depression before The Quiet. '
@@ -406,6 +425,108 @@ class StoryBrain {
       choices: ['Return to Dr. Voss with what you\'ve found'],
       nextScenes: [11],
     ),
+
+    // Scene 15 Life at the Reservoir (water discovery, fork: confront or escape)
+    // Image: scene_reservoir_life.png (warm interior, fire barrel, protagonist testing water)
+    Scene(
+      storyText:
+          'Days become a week. You learn the shape of life inside the walls.\n\n'
+          'Breakfast at six. Perimeter checks in pairs. Evenings around the fire barrel, '
+          'where stories get told and retold until they become mythology. Someone plays '
+          'guitar badly and nobody cares.\n\n'
+          'It\'s messy and small and unglamorous. It\'s also the most human place you\'ve '
+          'been since all this started.\n\n'
+          'But things shift. It\'s subtle at first. The couple who fought every morning '
+          'start holding hands in silence. The woman who cried every night begins humming '
+          'instead. Arguments lose their edges. Voices get softer. People are still '
+          'talking, still functioning, but the sharpness in their eyes is fading, like '
+          'a photograph left in the sun.\n\n'
+          'One morning, you wake and the journal is open to a page you don\'t remember '
+          'reading. A new line, in your handwriting, but you didn\'t write it:\n\n'
+          '"Check the water."\n\n'
+          'You find the testing kit in Voss\'s old supplies. You test the reservoir. '
+          'The strip turns amber.\n\n'
+          'S-17. In the Holdouts\' water. The water they\'ve been calling clean.\n\n'
+          'Your hands are shaking. You look across the compound at the people eating '
+          'breakfast, talking, laughing. How long? How many of them are already gone?',
+      imageAsset: 'assets/images/scene_reservoir_life.png',
+      choices: [
+        'Confront the Warden.',
+        'Leave. Now. Find the lab before it\'s too late.',
+      ],
+      nextScenes: [10, 5],
+    ),
+
+    // Scene 16 The Last Walk (buildup before surrendering to The Quiet)
+    // Image: scene_last_walk.png (protagonist alone on an empty street at golden hour)
+    Scene(
+      storyText:
+          'You set the vial down. Carefully, like it matters. Then you walk out of the '
+          'lab, past the smiling technicians, past the glass doors, into the street.\n\n'
+          'Not toward Voss. Not back to anyone. You just walk.\n\n'
+          'The city at dusk is almost unbearable in its beauty. The street lights '
+          'flicker on one by one as the sky turns amber. Shop windows glow. Someone '
+          'has planted flowers in the cracks of the sidewalk, or maybe they grew there '
+          'on their own, and nobody ripped them out because nobody rips anything out anymore.\n\n'
+          'The Settled pass you. A man in a cardigan walking a dog. Two women sharing '
+          'an umbrella against a drizzle that just started, laughing softly about nothing. '
+          'A kid on a bicycle, no helmet, going very slowly, smiling at the wet pavement.\n\n'
+          'None of them are pretending. That\'s the thing you keep coming back to.\n\n'
+          'They\'re not acting peaceful. They *are* peaceful. The pain is gone. The fear '
+          'is gone. The grinding, relentless weight of being a person who can be hurt '
+          'is just... gone.\n\n'
+          'You think about Lena. Not the hollow Lena, not the greeting-card voice. '
+          'The Lena before — the one who called you at two in the morning because '
+          'the darkness had gotten too loud. The one who said she was fine every time '
+          'you asked, and wasn\'t, and both of you knew it.\n\n'
+          'You think: what if the journal was wrong? What if past-you was the one '
+          'who couldn\'t see clearly?\n\n'
+          'At the end of the street, the park. And in the park, watering the flowers '
+          'in the almost-dark: Lena.',
+      imageAsset: 'assets/images/scene_last_walk.png',
+      choices: [
+        'Go to her. This is where you need to be.',
+        'No. Turn around. Find Voss. This isn\'t over.',
+      ],
+      nextScenes: [17, 11],
+    ),
+
+    // Scene 17 Lena's Garden (final pre-BAD ENDING moment)
+    // Image: scene_lena_garden.png (protagonist beside Lena in garden at dusk, back to viewer)
+    Scene(
+      storyText:
+          'She doesn\'t startle when you approach. She just looks up and smiles, '
+          'warm and easy, the way someone smiles at a stranger who\'s admiring the same sunset.\n\n'
+          '"Hello," she says.\n\n'
+          'Not: *Oh my god, where have you been.* Not: *I was worried about you.* '
+          'Just: Hello. Like she\'s meeting you for the first time, and that\'s fine, '
+          'and everything is fine.\n\n'
+          'You sit in the grass beside her. She goes back to the flowers. '
+          'Marigolds. She\'s planted an entire row of marigolds along the park path, '
+          'each one carefully staked against the wind. She tends them the way she '
+          'used to tend everything — thorough, patient, meticulous.\n\n'
+          'You used to worry that the depression had taken that from her. That '
+          'attention to small things. The care.\n\n'
+          'It didn\'t. S-17 didn\'t take it either. It\'s still here. She\'s still here, '
+          'in every way that was ever good about her.\n\n'
+          'You sit with her until the park lights come on. She hums your mother\'s '
+          'song, low under her breath. You didn\'t know you remembered it until '
+          'you hear it and your chest does something complicated.\n\n'
+          '"Are you okay?" she asks. It\'s the first thing she\'s said in an hour.\n\n'
+          'And you realize: you are. For the first time in a very long time, '
+          'sitting in the dark with your sister and the marigolds, you actually are.\n\n'
+          'The journal is in your pocket. Heavy. You\'ve read it so many times '
+          'you could recite it. *Don\'t trust Maren. Don\'t drink the water. '
+          'Find the lab. Destroy the supply.*\n\n'
+          'You take it out. You set it on the grass.\n\n'
+          'You let go.',
+      imageAsset: 'assets/images/scene_lena_garden.png',
+      choices: [
+        'Let go. Sit with her. Whatever comes next, comes next.',
+        'No. Not like this. You stand up.',
+      ],
+      nextScenes: [12, 11],
+    ),
   ];
 
   // Public getters
@@ -434,4 +555,7 @@ class StoryBrain {
     if (_currentSceneIndex == 13) return 'Good Ending';
     return 'The End';
   }
+
+  // Returns total scene count (useful for progress indicators)
+  int get sceneCount => _storyData.length;
 }
