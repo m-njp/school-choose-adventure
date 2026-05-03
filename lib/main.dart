@@ -1,122 +1,293 @@
+// main.dart — UI Entry Point
+// "The Quiet" — Choose Your Own Adventure
+//
+
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// import 'package:audioplayers/audioplayers.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// TODO: uncomment once pixel_ui is added to pubspec.yaml
+// import 'package:pixel_ui/pixel_ui.dart';
 
-  // This widget is the root of your application.
+import 'StoryBrain.dart';
+
+StoryBrain storyBrain = StoryBrain();
+
+void main() => runApp(const ChooseAdventure());
+
+class ChooseAdventure extends StatelessWidget {
+  const ChooseAdventure({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'The Quiet',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1A3A4A),
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Scaffold(
+        backgroundColor: const Color(0xFF0D1B22),
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF0A1520),
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            'THE QUIET',
+            // TODO: swap with PixelText.mulmaru() once pixel_ui is installed
+            style: TextStyle(
+              color: Color(0xFFB0D4E0),
+              fontSize: 14,
+              letterSpacing: 4,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        ),
+        body: const SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: StoryPage(),
+          ),
+        ),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class StoryPage extends StatefulWidget {
+  const StoryPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<StoryPage> createState() => _StoryPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _StoryPageState extends State<StoryPage> {
+  // add AudioPlayer field here once audioplayers is in pubspec.yaml
+  // final AudioPlayer _bgPlayer = AudioPlayer();
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    // _startAmbient();
+  }
+
+  // Future<void> _startAmbient() async {
+  //   await _bgPlayer.setReleaseMode(ReleaseMode.loop);
+  //   await _bgPlayer.play(AssetSource('audio/ambient.mp3'));
+  // }
+
+  // Called when the player taps a choice button.
+  // choiceIndex is the button's position in getChoices() list.
+  // nextScene() looks up nextScenes[choiceIndex] to find the target scene.
+  void makeChoice(int choiceIndex) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      storyBrain.nextScene(choiceIndex);
+      if (storyBrain.isGameOver()) {
+        _showEndingDialog();
+      }
+    });
+  }
+
+  // R6 — ending popup: shows which ending reached + Restart button
+  void _showEndingDialog() {
+    // TODO (R5): play ending sting and stop background music here
+    // _bgPlayer.stop();
+    // AudioPlayer().play(AssetSource('audio/ending_sting.mp3'));
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            backgroundColor: const Color(0xFF1A2C35),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+              side: const BorderSide(color: Color(0xFF3A6070), width: 1),
+            ),
+            title: Text(
+              storyBrain.getEndingType().toUpperCase(),
+              style: const TextStyle(
+                color: Color(0xFFB0D4E0),
+                fontSize: 13,
+                letterSpacing: 3,
+                fontWeight: FontWeight.w300,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            content: const Text(
+              'Would you like to start over?',
+              style: TextStyle(color: Color(0xFF8AABB8), fontSize: 15),
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              Center(
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color(0xFF1E4D60),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      storyBrain.restart();
+                    });
+                    Navigator.of(ctx).pop();
+                  },
+                  child: const Text(
+                    'RESTART',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
+  // List.generate keeps index i in sync with nextScenes[i] via nextScene(i).
+  List<Widget> buildChoiceButtons() {
+    final List<String> choices = storyBrain.getChoices();
+
+    return List.generate(choices.length, (i) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: SizedBox(
+          width: double.infinity,
+          child: TextButton(
+            // TODO: replace with PixelButton once pixel_ui is installed:
+            //
+            //   PixelButton(
+            //     logicalWidth: 80,
+            //     logicalHeight: 14,
+            //     normalStyle: PixelShapeStyle(
+            //       corners: PixelCorners.md,
+            //       fillColor: const Color(0xFF1A3A4A),
+            //       borderColor: const Color(0xFF2D5E74),
+            //       borderWidth: 1,
+            //       shadow: PixelShadow.sm(const Color(0xFF0A1520)),
+            //     ),
+            //     onPressed: () => makeChoice(i),
+            //     child: Text(choices[i], style: PixelText.mulmaru(fontSize: 13, color: Colors.white)),
+            //   ),
+            style: TextButton.styleFrom(
+              backgroundColor: const Color(0xFF1A3A4A),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(3),
+                side: const BorderSide(color: Color(0xFF2D5E74), width: 1),
+              ),
+            ),
+            onPressed: () => makeChoice(i),
+            child: Text(
+              choices[i], // R3 — Text
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFFCDE8F0),
+                fontSize: 15,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        // TODO: swap the placeholder Card below with Image.asset once images are confirmed.
+        // When ready, replace the Card block with:
+        //
+        //   Expanded(
+        //     flex: 3,
+        //     child: Card(
+        //       clipBehavior: Clip.antiAlias,
+        //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        //       child: Image.asset(
+        //         storyBrain.getSceneImage(),
+        //         fit: BoxFit.cover,
+        //         width: double.infinity,
+        //       ),
+        //     ),
+        //   ),
+        //
+        //   Scene  0 → scene_apartment.png
+        //   Scene  1 → scene_maren_alt.png
+        //   Scene  2 → scene_journal.png
+        //   Scene  3 → scene_clinic.png
+        //   Scene  4 → scene_holdouts.png
+        //   Scene  5 → scene_helios.png
+        //   Scene  6 → scene_confrontation.png
+        //   Scene  7 → scene_lab.png
+        //   Scene  8 → scene_coldstorage.png
+        //   Scene  9 → scene_renewal.png
+        //   Scene 10 → scene_holdout_ending.png
+        //   Scene 11 → scene_counteragent.png
+        //   Scene 12 → scene_quiet_ending.png
+        //   Scene 13 → scene_good_ending.png
+        //   Scene 14 → scene_rooftop.png
+        Expanded(
+          flex: 3,
+          child: Card(
+            color: const Color(0xFF1A2C35),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
             ),
-          ],
+            child: const Center(
+              child: Text(
+                '[ scene image ]',
+                style: TextStyle(color: Color(0xFF3A6070), fontSize: 13),
+              ),
+            ),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+
+        const SizedBox(height: 12),
+
+        Expanded(
+          flex: 3,
+          child: SingleChildScrollView(
+            child: Text(
+              storyBrain.getStoryText(),
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color(0xFFD4EAF2),
+                height: 1.75,
+                letterSpacing: 0.2,
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        // Choice buttons — dynamically built from getChoices()
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: buildChoiceButtons(),
+        ),
+      ],
     );
   }
 }
