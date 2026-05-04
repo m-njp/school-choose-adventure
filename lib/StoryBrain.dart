@@ -190,6 +190,7 @@ class StoryBrain {
           'your parents died, when she couldn\'t get out of bed for six months, '
           'was that the life you want to give back to her?"',
       imageAsset: 'assets/images/scene_confrontation.png',
+      audioAsset: 'assets/sounds/danger-anxiety-sound.mp3',
       choices: [
         'Take the vial. Go to Cold Storage for the full culture.',
         'She might be right. Maybe this is mercy.',
@@ -239,6 +240,7 @@ class StoryBrain {
           'therapist she wanted to stop existing." The tech pauses. "S-17 gave her '
           'peace. Real peace. And you want to take that away?"',
       imageAsset: 'assets/images/scene_coldstorage.png',
+      audioAsset: 'assets/sounds/danger-anxiety-sound.mp3',
       choices: [
         'Take the vial and leave. People deserve the choice.',
         'Maybe The Quiet saved the people I couldn\'t.',
@@ -303,6 +305,7 @@ class StoryBrain {
           'You don\'t notice when you stop feeling anything about it.\n\n'
           'There was never a safe choice.',
       imageAsset: 'assets/images/scene_holdout_ending.png',
+      audioAsset: 'assets/sounds/neutral-ending.mp3',
       choices: [], // NEUTRAL ENDING no choices
       nextScenes: [],
     ),
@@ -332,6 +335,7 @@ class StoryBrain {
           '"Your call. You made S-17. You made this counteragent. '
           'This is your responsibility."',
       imageAsset: 'assets/images/scene_counteragent.png',
+      audioAsset: 'assets/sounds/danger-anxiety-sound.mp3',
       choices: [
         'Release the counteragent. Bring everyone back.',
         'Destroy the counteragent. Let The Quiet remain.',
@@ -361,6 +365,7 @@ class StoryBrain {
           'every single time. You had to choose it yourself."\n\n'
           'The Quiet isn\'t a disease. It\'s the next step. And you just took it.',
       imageAsset: 'assets/images/scene_quiet_ending.png',
+      audioAsset: 'assets/sounds/bad-ending.wav',
       choices: [], // BAD ENDING no choices
       nextScenes: [],
     ),
@@ -394,6 +399,7 @@ class StoryBrain {
           'But you will spend the rest of your life knowing that you gave humanity '
           'back its pain, and the first person it took was your sister.',
       imageAsset: 'assets/images/scene_good_ending.png',
+      audioAsset: 'assets/sounds/happy-ending.wav',
       choices: [], // GOOD ENDING no choices
       nextScenes: [],
     ),
@@ -450,6 +456,7 @@ class StoryBrain {
           'Your hands are shaking. You look across the compound at the people eating '
           'breakfast, talking, laughing. How long? How many of them are already gone?',
       imageAsset: 'assets/images/scene_reservoir_life.png',
+      audioAsset: 'assets/sounds/danger-anxiety-sound.mp3',
       choices: [
         'Confront the Warden.',
         'Leave. Now. Find the lab before it\'s too late.',
@@ -532,6 +539,7 @@ class StoryBrain {
   // Public getters
   String getStoryText() => _storyData[_currentSceneIndex].storyText;
   String getSceneImage() => _storyData[_currentSceneIndex].imageAsset;
+  String? getSceneAudio() => _storyData[_currentSceneIndex].audioAsset;
   List<String> getChoices() => _storyData[_currentSceneIndex].choices;
   bool isGameOver() => _storyData[_currentSceneIndex].isEnding;
 

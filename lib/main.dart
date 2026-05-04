@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'StoryBrain.dart';
 
-// import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 StoryBrain storyBrain = StoryBrain();
 
@@ -43,10 +43,34 @@ class StoryPage extends StatefulWidget {
 }
 
 class _StoryPageState extends State<StoryPage> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  @override
+  void initState() {
+    super.initState();
+    _updateAudio();
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  void _updateAudio() async {
+    await _audioPlayer.stop();
+    String? audioPath = storyBrain.getSceneAudio();
+    if (audioPath != null) {
+      _audioPlayer.setReleaseMode(ReleaseMode.loop);
+      await _audioPlayer.play(AssetSource(audioPath.replaceFirst('assets/', '')));
+    }
+  }
+
   void makeChoice(int choiceIndex) {
     setState(() {
       storyBrain.nextScene(choiceIndex);
     });
+    _updateAudio();
   }
 
   List<Widget> buildChoiceButtons() {
@@ -66,7 +90,10 @@ class _StoryPageState extends State<StoryPage> {
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             padding: const EdgeInsets.all(14.0),
           ),
-          onPressed: () => setState(() => storyBrain.restart()),
+          onPressed: () {
+            setState(() => storyBrain.restart());
+            _updateAudio();
+          },
           child: const Text(
             'PLAY AGAIN',
             textAlign: TextAlign.center,
