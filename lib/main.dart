@@ -1,10 +1,8 @@
-// main.dart — UI Entry Point
-// "The Quiet" — Choose Your Own Adventure
-
 import 'package:flutter/material.dart';
-// TODO: uncomment once audioplayers is wired
-// import 'package:audioplayers/audioplayers.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'StoryBrain.dart';
+
+// import 'package:audioplayers/audioplayers.dart';
 
 StoryBrain storyBrain = StoryBrain();
 
@@ -16,34 +14,19 @@ class ChooseAdventure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'The Quiet',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1A3A4A),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
+        textTheme: GoogleFonts.jersey10TextTheme(),
+        colorScheme: const ColorScheme.dark(),
       ),
       home: Scaffold(
-        backgroundColor: const Color(0xFF0D1B22),
+        backgroundColor: Colors.grey.shade900,
         appBar: AppBar(
-          backgroundColor: const Color(0xFF0A1520),
-          elevation: 0,
-          centerTitle: true,
-          title: const Text(
-            'THE QUIET',
-            style: TextStyle(
-              color: Color(0xFFB0D4E0),
-              fontSize: 14,
-              letterSpacing: 4,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
+          backgroundColor: Colors.blueGrey.shade900,
+          title: const Text('THE QUIET', style: TextStyle(letterSpacing: 3)),
         ),
         body: const SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: StoryPage(),
           ),
         ),
@@ -60,128 +43,57 @@ class StoryPage extends StatefulWidget {
 }
 
 class _StoryPageState extends State<StoryPage> {
-  // TODO: add AudioPlayer field here once audioplayers is wired
-  // final AudioPlayer _bgPlayer = AudioPlayer();
-
-  @override
-  void initState() {
-    super.initState();
-    // TODO: start looping ambient audio here
-    // _startAmbient();
-  }
-
-  // TODO: uncomment once audioplayers is ready
-  // Future<void> _startAmbient() async {
-  //   await _bgPlayer.setReleaseMode(ReleaseMode.loop);
-  //   await _bgPlayer.play(AssetSource('audio/ambient.mp3'));
-  // }
-
-  // Called when the player taps a choice button.
-  // choiceIndex is the button's position in getChoices() list.
-  // nextScene() looks up nextScenes[choiceIndex] to find the target scene.
   void makeChoice(int choiceIndex) {
     setState(() {
       storyBrain.nextScene(choiceIndex);
-      if (storyBrain.isGameOver()) {
-        _showEndingDialog();
-      }
     });
   }
 
-  // Ending popup: shows which ending reached + Restart button
-  void _showEndingDialog() {
-    // TODO: play ending sting and stop background music here
-    // _bgPlayer.stop();
-    // AudioPlayer().play(AssetSource('audio/ending_sting.mp3'));
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            backgroundColor: const Color(0xFF1A2C35),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-              side: const BorderSide(color: Color(0xFF3A6070), width: 1),
-            ),
-            title: Text(
-              storyBrain.getEndingType().toUpperCase(),
-              style: const TextStyle(
-                color: Color(0xFFB0D4E0),
-                fontSize: 13,
-                letterSpacing: 3,
-                fontWeight: FontWeight.w300,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            content: const Text(
-              'Would you like to start over?',
-              style: TextStyle(color: Color(0xFF8AABB8), fontSize: 15),
-              textAlign: TextAlign.center,
-            ),
-            actions: [
-              Center(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color(0xFF1E4D60),
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      storyBrain.restart();
-                    });
-                    Navigator.of(ctx).pop();
-                  },
-                  child: const Text(
-                    'RESTART',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    });
-  }
-
-  // Builds one button per choice using getChoices().
-  // List.generate keeps index i in sync with nextScenes[i] via nextScene(i).
   List<Widget> buildChoiceButtons() {
+    if (storyBrain.isGameOver()) {
+      return [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 6.0),
+          child: Text(
+            storyBrain.getEndingType().toUpperCase(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.blueGrey, fontSize: 16.0, letterSpacing: 2),
+          ),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.blueGrey,
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            padding: const EdgeInsets.all(14.0),
+          ),
+          onPressed: () => setState(() => storyBrain.restart()),
+          child: const Text(
+            'PLAY AGAIN',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 18.0),
+          ),
+        ),
+      ];
+    }
+
     final List<String> choices = storyBrain.getChoices();
 
     return List.generate(choices.length, (i) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: SizedBox(
-          width: double.infinity,
-          child: TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: const Color(0xFF1A3A4A),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3),
-                side: const BorderSide(color: Color(0xFF2D5E74), width: 1),
-              ),
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.blueGrey,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
             ),
-            onPressed: () => makeChoice(i),
-            child: Text(
-              choices[i],
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFFCDE8F0),
-                fontSize: 15,
-                height: 1.4,
-              ),
-            ),
+            padding: const EdgeInsets.all(14.0),
+          ),
+          onPressed: () => makeChoice(i),
+          child: Text(
+            choices[i],
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white, fontSize: 18.0),
           ),
         ),
       );
@@ -194,48 +106,52 @@ class _StoryPageState extends State<StoryPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-
-        // Scene image
         Expanded(
           flex: 3,
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            child: Image.asset(
-              storyBrain.getSceneImage(),
-              fit: BoxFit.cover,
-              width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Image.asset(storyBrain.getSceneImage(), fit: BoxFit.cover),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Photo generated by Gemini Banana Pro 3',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontStyle: FontStyle.italic,
+                    fontSize: 12.0,
+                    color: Colors.white54,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
 
-        const SizedBox(height: 12),
-
-        // Scene text
         Expanded(
-          flex: 3,
-          child: SingleChildScrollView(
-            child: Text(
-              storyBrain.getStoryText(),
-              textAlign: TextAlign.left,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xFFD4EAF2),
-                height: 1.75,
-                letterSpacing: 0.2,
+          flex: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SingleChildScrollView(
+              child: Text(
+                storyBrain.getStoryText(),
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontSize: 21.0,
+                  color: Colors.white,
+                  height: 1.5,
+                ),
               ),
             ),
           ),
         ),
 
-        const SizedBox(height: 12),
-
-        // Choice buttons
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: buildChoiceButtons(),
         ),
-
       ],
     );
   }
